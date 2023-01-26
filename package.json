@@ -1,7 +1,7 @@
 {
-  "name": "sudoku-solver",
+  "name": "fCC-07-04-sudoku-solver",
   "version": "2.0.0",
-  "description": "Quality Assurance 4: Sudoku Solver",
+  "description": "freeCodeCamp (fCC) - Quality Assurance (07) - Quality Assurance Projects - Sudoku Solver (04)",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
@@ -18,7 +18,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsdom": "^16.4.0",
-    "mocha": "^8.1.3",
+    "mocha": "^10.2.0",
     "nodemon": "^2.0.4"
   },
   "license": "MIT"
