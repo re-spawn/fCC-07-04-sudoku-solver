@@ -4,6 +4,8 @@ const assert = chai.assert;
 const Solver = require('../controllers/sudoku-solver.js');
 let solver = new Solver();
 
+const puzzlesAndSolutions = require('../controllers/puzzle-strings.js');
+
 suite('Unit Tests', () => {
 
   const validPuzzle = '1.34567894567891.37891.3456.34567891567891.34891.3456734567891.67891.34591.345678';
@@ -96,11 +98,19 @@ suite('Unit Tests', () => {
       assert.isObject(error);
       assert.propertyVal(error, 'error', 'Puzzle cannot be solved');
     });
-    test('12. Solve incomplete puzzle', () => {
+    test('12a. Solve incomplete puzzle', () => {
       const testPuzzle = validPuzzle;
       const solution = solver.solve(testPuzzle);
       assert.isObject(solution);
       assert.propertyVal(solution, 'solution', validPuzzleSolution);
+    });
+    test('12b. Solve sample puzzles', () => {
+      for (let puzzle = 0; puzzle < puzzlesAndSolutions.length; puzzle++) {
+        const testPuzzle = puzzlesAndSolutions[puzzle][0];
+        const solution = solver.solve(testPuzzle);
+        assert.isObject(solution);
+        assert.propertyVal(solution, 'solution', puzzlesAndSolutions[puzzle][1]);
+      }
     });
   });
 
