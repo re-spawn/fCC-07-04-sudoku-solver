@@ -92,7 +92,6 @@ class SudokuSolver {
         placeholders.push({
           row: row,
           column: column,
-          value: '.',
           values: values
         });
       }
@@ -112,16 +111,18 @@ class SudokuSolver {
         error: 'Puzzle cannot be solved' // no values to try
       };
     }
+    const value = placeholders[0].values[0];
     if (this.checkPlacement(
-          puzzleString, placeholders[0].row, placeholders[0].column,
-          placeholders[0].values[0])) {
+          puzzleString, placeholders[0].row, placeholders[0].column, value)) {
+      const nextPuzzleString = puzzleString.replace('.', value);
       const result = this.getSolution(
-         puzzleString.replace('.', placeholders[0].values.shift()),
-         placeholders.slice(1));
+        nextPuzzleString,
+        this.getPlaceholdersWithValues(nextPuzzleString));
       if (result.hasOwnProperty('solution')) {
         return result; // solution found
       }
     }
+    placeholders[0].values.shift();
     return this.getSolution(puzzleString, placeholders); // try next value
   }
 
@@ -142,8 +143,7 @@ class SudokuSolver {
         }
       }
     }
-    const placeholders = this.getPlaceholdersWithValues(puzzleString);
-    return this.getSolution(puzzleString, placeholders);
+    return this.getSolution(puzzleString, this.getPlaceholdersWithValues(puzzleString));
   }
 
 }

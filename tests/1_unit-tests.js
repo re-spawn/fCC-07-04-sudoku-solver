@@ -4,7 +4,7 @@ const assert = chai.assert;
 const Solver = require('../controllers/sudoku-solver.js');
 let solver = new Solver();
 
-const puzzlesAndSolutions = require('../controllers/puzzle-strings.js');
+const puzzlesAndSolutions = require('../controllers/puzzle-strings.js').puzzlesAndSolutions;
 
 suite('Unit Tests', () => {
 
@@ -13,20 +13,17 @@ suite('Unit Tests', () => {
 
   suite('SudokuSolver.validate', () => {
     test('01. Valid puzzle', () => {
-      // assert.isTrue(solver.validate(validPuzzle));
       const result = solver.validate(validPuzzle);
       assert.isObject(result);
       assert.propertyVal(result, 'valid', true);
     });
     test('02. Puzzle with invalid characters', () => {
-      // assert.isFalse(solver.validate(validPuzzle.replace(/1/g, "X")));
       const error = solver.validate(validPuzzle.replace(/1/g, "X"));
       assert.isObject(error);
       assert.propertyVal(error, 'valid', false);
       assert.propertyVal(error, 'error', 'Invalid characters in puzzle');
     });
     test('03. Puzzle with invalid length', () => {
-      // assert.isFalse(solver.validate(validPuzzle.replace(/1/g, "")));
       const error = solver.validate(validPuzzle.replace(/1/g, ""));
       assert.isObject(error);
       assert.propertyVal(error, 'valid', false);
@@ -104,7 +101,14 @@ suite('Unit Tests', () => {
       assert.isObject(solution);
       assert.propertyVal(solution, 'solution', validPuzzleSolution);
     });
-    test('12b. Solve sample puzzles', () => {
+    test('12b. Solve incomplete puzzle', () => {
+      const testPuzzle = '..9..5.1.85.4....2432......1...69.83.9.....6.62.71...9......1945....4.37.4.3..6..';
+      const solution = solver.solve(testPuzzle);
+      assert.isObject(solution);
+      assert.propertyVal(solution, 'solution',
+        '769235418851496372432178956174569283395842761628713549283657194516924837947381625');
+    });
+    test('12c. Solve sample puzzles', () => {
       for (let puzzle = 0; puzzle < puzzlesAndSolutions.length; puzzle++) {
         const testPuzzle = puzzlesAndSolutions[puzzle][0];
         const solution = solver.solve(testPuzzle);
